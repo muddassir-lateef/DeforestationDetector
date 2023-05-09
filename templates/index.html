@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Map Image</title>
+    <style>
+        body {
+            background: linear-gradient(to bottom right, #87CEFA, #6495ED);
+            font-family: sans-serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            padding: 20px;
+            font-size: 3rem;
+            text-shadow: 1px 1px 2px #666;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+        label {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 1.5rem;
+            border-radius: 5px;
+            border: none;
+            margin-bottom: 20px;
+            box-shadow: 1px 1px 2px #666;
+        }
+        input[type="submit"] {
+            background-color: #6495ED;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 1.5rem;
+            border-radius: 5px;
+            border: none;
+            box-shadow: 1px 1px 2px #666;
+            cursor: pointer;
+        }
+        #map {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 600px;
+            background-image: url("https://images.unsplash.com/photo-1529101091779-71327d0d6982");
+            background-size: cover;
+            background-position: center;
+            box-shadow: 1px 1px 2px #666;
+        }
+        #map img {
+            max-width: 100%;
+            max-height: 100%;
+            box-shadow: 1px 1px 2px #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Map Image</h1>
+    <form method="post">
+        <label>Latitude:</label>
+        <input type="text" name="latitude"><br>
+        <label>Longitude:</label>
+        <input type="text" name="longitude"><br>
+        <label>Scale :</label>
+        <input type="text" name="scale"><br>
+        <input type="submit" value="Get Map Image">
+    </form>
+    <div id="map">
+        {% if image_url %}
+            <img src="{{ image_url }}">
+        {% endif %}
+    </div>
+</body>
+</html>

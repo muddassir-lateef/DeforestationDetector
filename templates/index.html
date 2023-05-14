@@ -79,5 +79,16 @@
             <img src="{{ image_url }}">
         {% endif %}
     </div>
+    <div id="map">
+        {% if image_url1 %}
+            <img src="{{url_for('static', filename='img1.png')}}">
+        {% endif %}
+    </div>
+    <div id="map">
+        {% if image_url2 %}
+            <img src="{{url_for('static', filename='img2.png')}}">
+        {% endif %}
+    </div>
+
 </body>
 </html>

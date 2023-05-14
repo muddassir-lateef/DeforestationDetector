@@ -15,12 +15,12 @@ def index():
         # Get the latitude and longitude from the form and convert them to float
         latitude = float(request.form['latitude'])
         longitude = float(request.form['longitude'])
-        scale = float(request.form['scale'])
+        scale = int(request.form['scale'])
 
         ee.Initialize()
 
         poi = ee.Geometry.Point([longitude, latitude])  # [long, lat]
-        roi = poi.buffer(distance=9.2e5)
+        roi = poi.buffer(distance=scale)
 
         dataset = ee.ImageCollection(
             "COPERNICUS/Landcover/100m/Proba-V-C3/Global")
@@ -83,6 +83,7 @@ def index():
         # Define the colors for highlighting the areas with either red or green
         green = (0, 255, 0)
         red = (0, 0, 255)
+        deforestation=0
 
         # Create a new color image with the same dimensions as the grayscale images
         color_img = np.zeros((img2.shape[0], img2.shape[1], 3), dtype=np.uint8)
@@ -91,6 +92,10 @@ def index():
         for i in range(thresh.shape[0]):
             for j in range(thresh.shape[1]):
                 if thresh[i][j] == 255:
+                    if(img1[i][j] < img2[i][j]):
+                        deforestation=deforestation+1
+                    else:
+                        deforestation=deforestation-1
                     color_img[i][j] = green if img1[i][j] < img2[i][j] else red
                     forestationMask[i][j] = green if img1[i][j] < img2[i][j] else red
                 else:
@@ -102,10 +107,13 @@ def index():
         cv2.imwrite('static/img2.png', forestationMask)
 
         # Render the index template with the image URL
-        return render_template('index.html', image_url=urla,image_url1='img1.png',image_url2='img2.png')
+        return render_template('index.html', image_url=urla,image_url1='img1.png',image_url2='img2.png',deforestation_degree=str(deforestation))
 
     # Render the index template without an image URL
     return render_template('index.html', image_url=None)
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
